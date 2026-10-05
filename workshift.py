@@ -1,11 +1,16 @@
 from openpyxl import Workbook
 from openpyxl import load_workbook
 import re
+import argparse
 
-wb = load_workbook('<REDACTED>.xlsx')
+parser = argparse.ArgumentParser(description="Inspect a local workshift workbook.")
+parser.add_argument("workbook", help="Path to the workbook to inspect")
+parser.add_argument("--sheet", help="Worksheet name (defaults to the first worksheet)")
+args = parser.parse_args()
+wb = load_workbook(args.workbook)
 print(wb.get_sheet_names())
 
-ws = wb['<REDACTED>']
+ws = wb[args.sheet] if args.sheet else wb.worksheets[0]
 look_up_w = 5
 saver = []
 counter = 0
